@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: test
+management:
+  otlp:
+    tracing:
+      endpoint: http://localhost:4317
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: w3c
+    enabled: true
+  observations:
+    http:
+      server:
+        requests:
+          name: http_server_requests
+  metrics:
+    distribution:
+      percentiles:
+        p90: 0.9
+        p95: 0.95
+        p100: 1.0
+      percentiles-histogram:
+        all: true
+        http.server.requests: true
+
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
